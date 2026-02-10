@@ -1,10 +1,15 @@
 import { render, screen } from "@testing-library/react";
-
 import KanbanBoard from "../../components/KanbanBoard";
 
-test("renders Kanban board title", () => {
-  render(<KanbanBoard />);
-  expect(screen.getByText("Kanban Board")).toBeInTheDocument();
+test("renders tasks in correct columns", () => {
+  const mockTasks = [
+    { id: "1", title: "Todo Task", status: "todo" },
+    { id: "2", title: "Done Task", status: "done" },
+  ];
+
+  render(<KanbanBoard initialTasks={mockTasks} />);
+
+  expect(screen.getByText("Todo Task")).toBeInTheDocument();
+  expect(screen.getByText("Done Task")).toBeInTheDocument();
 });
 
-// TODO: Add more unit tests for individual components
