@@ -5,22 +5,14 @@ const { v4: uuid } = require("uuid");
 
 const app = express();
 const server = http.createServer(app);
+
+// Use dynamic port for Render
+const PORT = process.env.PORT || 5000;
+
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: { origin: "*" }, // keep original logic
 });
 
-/**
- * Task shape
- * {
- *  id,
- *  title,
- *  description,
- *  status: "todo" | "inprogress" | "done",
- *  priority: "Low" | "Medium" | "High",
- *  category: "Bug" | "Feature" | "Enhancement",
- *  attachments: []
- * }
- */
 
 let tasks = [];
 
@@ -47,15 +39,12 @@ io.on("connection", (socket) => {
   // ✏️ Update task
   socket.on("task:update", ({ id, updates }) => {
     tasks = tasks.map((t) => (t.id === id ? { ...t, ...updates } : t));
-
     io.emit("task:updated", { id, updates });
   });
+
   // 🔀 Move task between columns
   socket.on("task:move", ({ id, status }) => {
-    // Update the task in the backend array
     tasks = tasks.map((task) => (task.id === id ? { ...task, status } : task));
-
-    // Broadcast to all clients
     io.emit("task:moved", { id, status });
   });
 
@@ -64,16 +53,14 @@ io.on("connection", (socket) => {
     console.log(tasks.length);
     tasks = tasks.filter((t) => t.id !== id);
     console.log(tasks.length);
-
     io.emit("task:deleted", id);
   });
 
   // 📎 Attach file (simulated)
   socket.on("task:attach", ({ id, fileUrl }) => {
     tasks = tasks.map((t) =>
-      t.id === id ? { ...t, attachments: [...t.attachments, fileUrl] } : t,
+      t.id === id ? { ...t, attachments: [...t.attachments, fileUrl] } : t
     );
-
     io.emit("task:attached", { id, fileUrl });
   });
 
@@ -82,6 +69,8 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Listen on dynamic port
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
