@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 
 const AppContext = createContext(null);
 
-const socket = io("http://localhost:5000");
+const socket = io("https://submission-backend-mbi5.onrender.com");
 
 const defaultCategories = {
   bug: "Bug",
