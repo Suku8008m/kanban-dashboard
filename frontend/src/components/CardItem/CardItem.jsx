@@ -37,11 +37,32 @@ const CardItem = ({ task }) => {
     return "green";
   };
 
-  const openFile = () => {
+   const openFile = () => {
     if (!task.file) return;
-    const url = URL.createObjectURL(task.file);
-    window.open(url, "_blank");
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    // If it's a File object
+    if (task.file instanceof File) {
+      const url = URL.createObjectURL(task.file);
+      window.open(url, "_blank");
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    // If it's a Blob or ArrayBuffer
+    else if (
+      task.file instanceof ArrayBuffer ||
+      task.file instanceof Uint8Array
+    ) {
+      // Convert ArrayBuffer to Blob
+      const blob = new Blob([task.file]);
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    // If it's already a URL string
+    else if (typeof task.file === "string") {
+      window.open(task.file, "_blank");
+    } else {
+      console.error("Cannot open file:", task.file);
+    }
   };
 
   return (
