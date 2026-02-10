@@ -76,7 +76,7 @@ const CardItem = ({ task }) => {
           <div className="source">
             {task.file && (
               <button onClick={openFile}>
-                {task.file.type.?startsWith("image/") ? "🖼️" : "📁"} Open file
+                {task?.file?.type?.startsWith("image/") ? "🖼️" : "📁"} Open file
               </button>
             )}
           </div>
