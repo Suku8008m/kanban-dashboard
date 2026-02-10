@@ -65,7 +65,6 @@ textarea:focus {
   height: 100px;
   border-style: none;
   background-color: #ffffff08;
-
   border-radius: 5px;
   cursor: pointer;
   padding: 8px 5px;
@@ -82,7 +81,7 @@ ul.task-section form .drag-drop-file {
   width: 97%;
   margin-top: 20px;
   border-radius: 8px;
-  height: 150px;
+  min-height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,7 +108,7 @@ ul.task-section form .drag-drop-file {
 }
 
 #todo {
-  height: 100vh;
+  height: max-content;
   border-radius: 15px;
   padding: 20px 0px;
   overflow: auto;
@@ -119,6 +118,7 @@ ul.task-section form .drag-drop-file {
   display: flex;
   width: max-content;
   height: max-content;
+  min-height: 50vh;
   gap: 15px;
 }
 
