@@ -1,0 +1,154 @@
+.kanban-board {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.board {
+  border: 1px solid #0a0a0a;
+  margin-top: 5%;
+  border-radius: 10px;
+  background-color: #2626263f;
+  color: aliceblue;
+  padding: 20px 0px;
+}
+.board h3 {
+  margin: 10px;
+}
+.board .task-section form {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+.board .task-section form li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.board .task-section form li:nth-child(1) {
+  width: 70%;
+}
+.board .task-section form li:nth-child(2) {
+  width: 30%;
+}
+.board .task-section form li .text-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+}
+
+.board .task-section form li .text-section input,
+select {
+  height: 38px;
+  width: 90%;
+  border-style: none;
+  background-color: #ffffff08;
+  border-radius: 5px;
+  padding-left: 8px;
+  border: 0.5px solid #ffffff09;
+  color: #fafafa;
+}
+
+input:focus {
+  outline: none;
+}
+select {
+  cursor: pointer;
+}
+textarea:focus {
+  outline: none;
+}
+
+.board .task-section form li .text-section textarea {
+  width: 90%;
+  height: 100px;
+  border-style: none;
+  background-color: #ffffff08;
+
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px 5px;
+  border: 0.5px solid #ffffff09;
+  color: #fafafa;
+}
+
+.board .task-section form li .text-section select option {
+  background-color: #525252;
+}
+
+ul.task-section form .drag-drop-file {
+  border: 1.5px dashed #fff;
+  width: 97%;
+  margin-top: 20px;
+  border-radius: 8px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: silver;
+  text-align: center;
+  position: relative;
+}
+
+.drag-drop-file input {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+}
+
+.task-section form button {
+  padding: 10px 20px;
+  border-style: none;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#todo {
+  height: 100vh;
+  border-radius: 15px;
+  padding: 20px 0px;
+  overflow: auto;
+}
+
+#todo .scroll {
+  display: flex;
+  width: max-content;
+  height: max-content;
+  gap: 15px;
+}
+
+.col h3 {
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+.col .main-headding {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px 8px 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px solid #ffffff30;
+  background-color: #2626263f;
+}
+
+.col .main-headding p {
+  font-size: 14px;
+}
+
+.col .main-headding.todo {
+  color: rgb(61, 82, 116);
+}
+
+.col .main-headding.in-progress {
+  color: rgba(218, 165, 32, 0.674);
+}
+.col .main-headding.completed {
+  color: rgba(55, 145, 55, 0.566);
+}

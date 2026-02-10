@@ -1,0 +1,23 @@
+.task-progress-container {
+  background-color: #2626263f;
+  color: silver;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.charts {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.chart-box {
+  width: 400px;
+}
+
+.chart-box p {
+  margin-bottom: 15px;
+}
