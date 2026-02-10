@@ -1,6 +1,7 @@
 // Context.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 const AppContext = createContext(null);
 
@@ -39,6 +40,13 @@ export const AppProvider = ({ children }) => {
   // ---------- actions ----------
   const submitForm = (e) => {
     e.preventDefault();
+    const currentTask = newTask;
+    const isTaskAvailable = tasks.filter((item) => item.title === currentTask);
+    if (isTaskAvailable.length > 0) {
+      toast.error(`Task name '${currentTask}' already exists`);
+      return;
+    }
+    toast.success("Task Created Successfully !");
 
     socket.emit("task:create", {
       title: newTask,
@@ -140,3 +148,4 @@ export const AppProvider = ({ children }) => {
 };
 
 export const useApp = () => useContext(AppContext);
+
