@@ -1,17 +1,20 @@
 import { test, expect } from "@playwright/test";
 
-test("User can create a task and see it on the board", async ({ page }) => {
+test("user creates a task and sees it on the Kanban board", async ({
+  page,
+}) => {
   await page.goto("http://localhost:3000");
 
-  // Click Add Task
+  // Open task creation
   await page.getByRole("button", { name: /add task/i }).click();
 
-  // Fill task details
+  // Enter task title
   await page.getByPlaceholder(/task title/i).fill("E2E Test Task");
 
-  // Save task
+  // Save
   await page.getByRole("button", { name: /save/i }).click();
 
-  // Assert task appears on board
-  await expect(page.getByText("E2E Test Task")).toBeVisible();
+  // Verify task appears on board
+  await expect(page.getByText("E2E Test Task", { exact: true })).toBeVisible();
 });
+
