@@ -10,10 +10,24 @@ require("dotenv").config();
 // Use dynamic port for Render
 const PORT = process.env.PORT || 5000;
 
-const io = new Server(server, {
+const cors = require("cors");
+
+app.use(cors({
   origin: process.env.FRONTEND_URL,
-  maxHttpBufferSize: 20 * 1024 * 1024, // 20MB
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
+
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+  transports: ["websocket", "polling"],
+  maxHttpBufferSize: 20 * 1024 * 1024,
 });
+
 
 let tasks = [];
 
