@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const AppContext = createContext(null);
 
-const socket = io("https://kanban-dashboard-ddum.onrender.com");
+const socket = io("https://kanban-dashboard-2r8z.onrender.com");
 
 const defaultCategories = {
   bug: "Bug",
