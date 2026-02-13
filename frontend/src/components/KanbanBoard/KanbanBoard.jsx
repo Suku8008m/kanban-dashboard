@@ -2,7 +2,6 @@ import "./index.css";
 import Column from "../Column/Column.jsx";
 import { useApp } from "../../Context.jsx";
 import { TaskprogressChart } from "../TaskProgressChart//TaskprogressChart.jsx";
-import Footer from "../Footer/Footer.jsx";
 import { useEffect } from "react";
 
 function KanbanBoard() {
@@ -26,6 +25,7 @@ function KanbanBoard() {
     preview,
     setPreview,
     submitForm,
+    isLight,
   } = useApp();
   useEffect(() => {
     return () => preview && URL.revokeObjectURL(preview);
@@ -39,18 +39,34 @@ function KanbanBoard() {
 
   //FileSystem.......
   const handleChange = (e) => {
-    const selectedFile = e.target.files[0];
+    const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
+
+    // Optional: limit size (example 5MB)
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (selectedFile.size > MAX_SIZE) {
+      alert("File too large (Max 5MB)");
+      return;
+    }
+
     setFile(selectedFile);
-    // Image preview......
+
+    // Clean previous preview
+    if (preview) {
+      URL.revokeObjectURL(preview);
+      setPreview(null);
+    }
+
+    // Create preview only for images
     if (selectedFile.type.startsWith("image/")) {
-      setPreview(URL.createObjectURL(selectedFile));
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
     }
   };
 
   return (
     <div className="kanban-board">
-      <div className="board">
+      <div className={`${isLight ? "board" : "board light"}`}>
         <h3>CREATE A TASK</h3>
         <ul className="task-section">
           <form onSubmit={submitForm}>
@@ -75,64 +91,74 @@ function KanbanBoard() {
             </li>
             <li>
               <div className="text-section">
-                <label htmlFor="category">Category</label>
-                <select
-                  name=""
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value={defaultCategories.bug}>
-                    {defaultCategories.bug}
-                  </option>
-                  <option value={defaultCategories.feature}>
-                    {defaultCategories.feature}
-                  </option>
-                  <option value={defaultCategories.enhancement}>
-                    {defaultCategories.enhancement}
-                  </option>
-                </select>
-                <label htmlFor="priority">Priority</label>
-                <select
-                  name=""
-                  id="priority"
-                  value={priority}
-                  onChange={(e) => setPriority(e.target.value)}
-                  className="priority"
-                >
-                  <option value={defaultPriority.low}>
-                    {defaultPriority.low}
-                  </option>
-                  <option value={defaultPriority.medium}>
-                    {defaultPriority.medium}
-                  </option>
-                  <option value={defaultPriority.high}>
-                    {defaultPriority.high}
-                  </option>
-                </select>
-                <label htmlFor="status">Status</label>
-                <select
-                  name=""
-                  value={status}
-                  id="status"
-                  className="priority"
-                  onChange={(e) => setStatus(e.target.value)}
-                >
-                  <option value={defaultStatus.todo}>
-                    {defaultStatus.todo}
-                  </option>
-                  <option value={defaultStatus.inprogress}>
-                    {defaultStatus.inprogress}
-                  </option>
-                  <option value={defaultStatus.done}>
-                    {defaultStatus.done}
-                  </option>
-                </select>
+                <div className="inputs">
+                  <label htmlFor="category">Category</label>
+                  <select
+                    name=""
+                    id="category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value={defaultCategories.bug}>
+                      {defaultCategories.bug}
+                    </option>
+                    <option value={defaultCategories.feature}>
+                      {defaultCategories.feature}
+                    </option>
+                    <option value={defaultCategories.enhancement}>
+                      {defaultCategories.enhancement}
+                    </option>
+                  </select>
+                </div>
+                <div className="inputs">
+                  <label htmlFor="priority">Priority</label>
+                  <select
+                    name=""
+                    id="priority"
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                    className="priority"
+                  >
+                    <option value={defaultPriority.low}>
+                      {defaultPriority.low}
+                    </option>
+                    <option value={defaultPriority.medium}>
+                      {defaultPriority.medium}
+                    </option>
+                    <option value={defaultPriority.high}>
+                      {defaultPriority.high}
+                    </option>
+                  </select>
+                </div>
+                <div className="inputs">
+                  <label htmlFor="status">Status</label>
+                  <select
+                    name=""
+                    value={status}
+                    id="status"
+                    className="priority"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value={defaultStatus.todo}>
+                      {defaultStatus.todo}
+                    </option>
+                    <option value={defaultStatus.inprogress}>
+                      {defaultStatus.inprogress}
+                    </option>
+                    <option value={defaultStatus.done}>
+                      {defaultStatus.done}
+                    </option>
+                  </select>
+                </div>
               </div>
             </li>
             <li className="drag-drop-file">
               <input type="file" onChange={handleChange} />
-              {(!file || !preview) && <p>Simply click here to add a file.</p>}
+              {(!file || !preview) && (
+                <p>
+                  Simply click here to add <br /> a file/image.
+                </p>
+              )}
               {preview && (
                 <img
                   src={preview}
@@ -161,7 +187,7 @@ function KanbanBoard() {
         {/* TODO: Implement task rendering and interactions */}
       </div>
       <TaskprogressChart />
-      <section id="todo">
+      <section id="todo" className={`${isLight ? "todo" : "todo light"}`}>
         <div className="scroll">
           <div className="col">
             <div className="main-headding todo">
@@ -186,10 +212,8 @@ function KanbanBoard() {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 }
 
 export default KanbanBoard;
-

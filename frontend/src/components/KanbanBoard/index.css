@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 50px;
+  padding: 2%;
 }
 .board {
   border: 1px solid #0a0a0a;
@@ -11,6 +12,7 @@
   color: aliceblue;
   padding: 20px 0px;
 }
+
 .board h3 {
   margin: 10px;
 }
@@ -31,6 +33,12 @@
 .board .task-section form li:nth-child(2) {
   width: 30%;
 }
+.board .task-section form li:nth-child(2) .inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .board .task-section form li .text-section {
   display: flex;
   flex-direction: column;
@@ -62,7 +70,7 @@ textarea:focus {
 
 .board .task-section form li .text-section textarea {
   width: 90%;
-  height: 100px;
+  height: 110px;
   border-style: none;
   background-color: #ffffff08;
   border-radius: 5px;
@@ -161,4 +169,130 @@ ul.task-section form .drag-drop-file {
 .preview-img {
   height: 200px;
   width: 200px;
+}
+
+/* Light Mode.. */
+
+.light {
+  border: 1px solid #ffffff;
+  background-color: var(--Light-2);
+  color: var(--Light-4);
+  box-shadow: 10px 18px 18px #333333a7;
+}
+
+.light .task-section form .text-section input,
+.light .task-section form .text-section textarea,
+.light .task-section form .text-section select,
+.light .task-section form .text-section select option {
+  color: var(--Light-5) !important;
+  background-color: #ffffff52 !important;
+  box-shadow: 6px 3px 8px #3333338a;
+}
+
+.light .task-section form .drag-drop-file {
+  border: 1.5px dashed var(--Light-3);
+  color: var(--Light-5);
+  box-shadow: 6px 3px 8px #3333338a;
+}
+
+.light .task-section form button {
+  background-color: #ffffff8a;
+  background-image: linear-gradient(to right, #9b9a9a8a, #dedede98);
+  color: var(--Light-5);
+  transition: 1s ease;
+  box-shadow: 6px 3px 8px #3333338a;
+}
+
+.light .task-section form button:hover {
+  background-image: linear-gradient(to left, #9b9a9a8a, #ffffff98);
+}
+
+#todo.todo {
+  padding: 10px;
+}
+
+#todo.todo.light {
+  background-color: var(--Light-2);
+}
+
+#todo.todo.light .scroll .col {
+  background-color: var(--Light-4);
+  box-shadow: 6px 3px 8px #3333338a;
+  border: none;
+}
+
+#todo.todo.light .scroll .col .todo {
+  color: var(--Light-2);
+}
+#todo.todo.light .scroll .col .in-progress {
+  color: var(--Light-2);
+}
+#todo.todo.light .scroll .col .completed {
+  color: var(--Light-2);
+}
+
+#todo.todo.light .scroll .col .column {
+  background-color: var(--Light-4);
+}
+
+@media (max-width: 468px) {
+  .kanban-board .board .task-section form li:nth-child(1) {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .kanban-board .board .task-section form li:nth-child(1) .text-section input,
+  .kanban-board
+    .board
+    .task-section
+    form
+    li:nth-child(1)
+    .text-section
+    textarea {
+    width: 100%;
+  }
+
+  .kanban-board .board .task-section form li:nth-child(2) {
+    width: 100%;
+  }
+
+  .kanban-board .board .task-section form li:nth-child(2) .text-section {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    justify-content: space-between;
+  }
+  .kanban-board
+    .board
+    .task-section
+    form
+    li:nth-child(2)
+    .text-section
+    .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .kanban-board
+    .board
+    .task-section
+    form
+    li:nth-child(2)
+    .text-section
+    .inputs
+    label {
+    margin-left: 2px;
+  }
+}
+
+@media (min-width: 768px) {
+  .board .task-section form li .text-section input {
+    height: 45px;
+  }
+  .board .task-section form li .text-section textarea {
+    height: 140px;
+  }
+  .board .task-section form li .text-section .inputs select {
+    height: 45px;
+  }
 }

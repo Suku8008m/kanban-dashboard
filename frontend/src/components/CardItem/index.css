@@ -257,3 +257,40 @@
   height: 30px;
   cursor: pointer;
 }
+
+/*LIGHT THEME>>>>>>>>>>>*/
+
+.card-item.light {
+  background-color: var(--Light-3);
+  box-shadow: 6px 3px 8px #0000008a;
+  background-color: var(--Light-3);
+  border-width: 0;
+}
+
+.card-item.light .card-top .title {
+  border-radius: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--Light-6);
+}
+
+.card-item.light .card-top p.green {
+  background-color: rgba(3, 98, 3, 0.922);
+  color: rgb(2, 223, 2);
+}
+
+.card-item.light .card-top p.red {
+  background-color: rgb(96, 3, 3);
+  color: rgb(252, 11, 11);
+}
+
+.card-item.light .card-top p.yellow {
+  background-color: rgb(118, 118, 16);
+  color: rgb(255, 255, 0);
+}
+
+.card-item.light .card-bottom .category {
+  color: var(--Light-2);
+  background-color: rgb(50, 50, 228);
+}

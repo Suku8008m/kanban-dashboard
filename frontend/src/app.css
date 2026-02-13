@@ -5,16 +5,32 @@
   font-family: "Roboto";
   list-style: none;
 }
+:root {
+  --white-60: #bfc6d4;
+  --white-70: #d1d6e0;
+  --white-80: #e0e4eb;
+  --white-90: #f0f1f5;
+  --white-100: #fff;
+
+  --Light-1: #ccd0cf;
+  --Light-2: #9ba8ab;
+  --Light-3: #4a5c6a;
+  --Light-4: #253745;
+  --Light-5: #11212d;
+  --Light-6: #06141b;
+}
 
 .App {
   min-height: 100vh;
-  padding: 2%;
+  padding-bottom: 0;
+  padding-top: 3%;
   background-color: #000000;
 }
 
 .App .title {
   color: #fafafa;
 }
+
 /* ===== Smooth minimal scrollbar ===== */
 ::-webkit-scrollbar {
   width: 6px;
@@ -44,4 +60,44 @@
     rgba(120, 120, 120, 0.65),
     rgba(60, 60, 60, 0.75)
   );
+}
+
+.app-title {
+  display: flex;
+  color: silver;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 2%;
+}
+.app-title h1 {
+  width: 80%;
+}
+.app-title button {
+  border: none;
+  background-color: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: var(--Light-1);
+  border: none;
+  box-shadow: 5px 4px 8px #3333338f;
+}
+
+/* Light Mode */
+.App.light {
+  background-color: var(--Light-1);
+}
+
+.App.light .title {
+  color: #2f4156;
+}
+
+.App.light .app-title button {
+  background-color: var(--Light-4);
 }

@@ -1,12 +1,11 @@
 // Context.jsx
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 
 const AppContext = createContext(null);
-
-const socket = io("https://kanban-dashboard-2r8z.onrender.com");
-
+const socket = io(import.meta.env.VITE_API_URL);
 const defaultCategories = {
   bug: "Bug",
   feature: "Feature",
@@ -25,10 +24,11 @@ const defaultStatus = {
   done: "Done",
 };
 
+// ---------- Provider ----------
 export const AppProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
 
-  // form state (kept exactly as you had it)
+  // Form State
   const [newTask, setNewTask] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState(defaultCategories.bug);
@@ -36,27 +36,55 @@ export const AppProvider = ({ children }) => {
   const [status, setStatus] = useState(defaultStatus.todo);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [isLight, setIsLight] = useState(false);
 
-  // ---------- actions ----------
-  const submitForm = (e) => {
+  // ---------- Create Task ----------
+  const submitForm = async (e) => {
     e.preventDefault();
-    const currentTask = newTask;
-    const isTaskAvailable = tasks.filter((item) => item.title === currentTask);
-    if (isTaskAvailable.length > 0) {
+
+    const currentTask = newTask.trim();
+
+    if (!currentTask) return;
+
+    const isTaskAvailable = tasks.some((item) => item.title === currentTask);
+
+    if (isTaskAvailable) {
       toast.error(`Task name '${currentTask}' already exists`);
       return;
     }
-    toast.success("Task Created Successfully !");
 
-    socket.emit("task:create", {
-      title: newTask,
+    let fileData = null;
+    let fileType = null;
+    let fileName = null;
+
+    if (file) {
+      fileData = await file.arrayBuffer();
+      fileType = file.type;
+      fileName = file.name;
+    }
+    console.log(
+      currentTask,
       description,
       category,
       priority,
       status,
-      file,
+      fileData,
+      fileType,
+      fileName,
+    );
+
+    socket.emit("task:create", {
+      title: currentTask,
+      description,
+      category,
+      priority,
+      status,
+      file: fileData,
+      fileType,
+      fileName,
     });
 
+    // Reset Form
     setNewTask("");
     setDescription("");
     setCategory(defaultCategories.bug);
@@ -66,6 +94,7 @@ export const AppProvider = ({ children }) => {
     setPreview(null);
   };
 
+  // ---------- Update ----------
   const updateForm = (id) => {
     socket.emit("task:update", {
       id,
@@ -73,21 +102,24 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  // ---------- Move ----------
   const move = ({ id, status }) => {
     socket.emit("task:move", { id, status });
   };
 
+  // ---------- Delete ----------
   const deleteForm = (id) => {
     socket.emit("task:delete", id);
   };
 
-  // ---------- socket listeners ----------
+  // ---------- Socket Listeners ----------
   useEffect(() => {
     socket.on("sync:tasks", (serverTasks) => {
       setTasks(serverTasks);
     });
 
     socket.on("task:created", (task) => {
+      toast.success("Task added Successfully");
       setTasks((prev) => [...prev, task]);
     });
 
@@ -121,12 +153,10 @@ export const AppProvider = ({ children }) => {
         defaultPriority,
         defaultStatus,
         tasks,
-        setTasks,
         newTask,
         setNewTask,
         description,
         setDescription,
-        move,
         category,
         setCategory,
         priority,
@@ -139,7 +169,10 @@ export const AppProvider = ({ children }) => {
         setPreview,
         submitForm,
         updateForm,
+        move,
         deleteForm,
+        isLight,
+        setIsLight,
       }}
     >
       {children}
@@ -147,5 +180,5 @@ export const AppProvider = ({ children }) => {
   );
 };
 
+// ---------- Hook ----------
 export const useApp = () => useContext(AppContext);
-

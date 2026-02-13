@@ -12,6 +12,7 @@
     "test:e2e": "npx playwright test"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
     "react": "^19.0.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -40,4 +41,3 @@
     "vitest": "^3.0.7"
   }
 }
-

@@ -19,8 +19,9 @@ const CardItem = ({ task }) => {
     setStatus,
     updateForm,
     deleteForm,
+    isLight,
   } = useApp();
-
+  // console.log(task);
   const [open, setOpen] = useState(false);
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -37,40 +38,42 @@ const CardItem = ({ task }) => {
     return "green";
   };
 
-   const openFile = () => {
+  const openFile = () => {
+    console.log("///////////////////////");
+    console.log(task);
     if (!task.file) return;
+    let fileBuffer = task.file;
 
-    // If it's a File object
-    if (task.file instanceof File) {
-      const url = URL.createObjectURL(task.file);
-      window.open(url, "_blank");
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // If coming from Node Buffer
+    if (fileBuffer.type === "Buffer") {
+      fileBuffer = new Uint8Array(fileBuffer.data).buffer;
     }
-    // If it's a Blob or ArrayBuffer
-    else if (
-      task.file instanceof ArrayBuffer ||
-      task.file instanceof Uint8Array
-    ) {
-      // Convert ArrayBuffer to Blob
-      const blob = new Blob([task.file]);
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
-    // If it's already a URL string
-    else if (typeof task.file === "string") {
-      window.open(task.file, "_blank");
-    } else {
-      console.error("Cannot open file:", task.file);
-    }
+
+    const blob = new Blob([fileBuffer], { type: task.fileType });
+    const url = URL.createObjectURL(blob);
+
+    window.open(url, "_blank");
+
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
+
+  /*  function detectFileType(buffer) {
+    const bytes = new Uint8Array(buffer);
+
+    if (bytes[0] === 0x89 && bytes[1] === 0x50) return "PNG Image";
+    if (bytes[0] === 0xff && bytes[1] === 0xd8) return "JPEG Image";
+    if (bytes[0] === 0x47 && bytes[1] === 0x49) return "GIF Image";
+    if (bytes[0] === 0x25 && bytes[1] === 0x50) return "PDF";
+    if (bytes[0] === 0x50 && bytes[1] === 0x4b) return "ZIP File";
+
+    return "Unknown file type";
+  } */
 
   return (
     <>
-      {/* CARD */}
       <div
         ref={drag}
-        className="card-item"
+        className={`${isLight ? "card-item" : "card-item light"}`}
         style={{ opacity: isDragging ? 0.5 : 1 }}
         onDoubleClick={() => {
           setDescription(task.description);
@@ -97,7 +100,9 @@ const CardItem = ({ task }) => {
           <div className="source">
             {task.file && (
               <button onClick={openFile}>
-                {task?.file?.type?.startsWith("image/") ? "🖼️" : "📁"} Open file
+                {task?.fileType?.startsWith("image/")
+                  ? "🖼️ Open Img"
+                  : "📁 Open file"}
               </button>
             )}
           </div>
@@ -106,7 +111,6 @@ const CardItem = ({ task }) => {
         </div>
       </div>
 
-      {/* POPUP */}
       <Popup open={open} modal onClose={() => setOpen(false)}>
         {(close) => (
           <div className="modal">

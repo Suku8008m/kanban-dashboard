@@ -14,7 +14,7 @@ import { useApp } from "../../Context";
 import "./index.css";
 
 export const TaskprogressChart = () => {
-  const { tasks, defaultStatus } = useApp();
+  const { tasks, defaultStatus, isLight } = useApp();
 
   const totalTasks = tasks.length;
 
@@ -44,10 +44,12 @@ export const TaskprogressChart = () => {
     { name: "Remaining", value: totalTasks - doneCount },
   ];
 
-  const COLORS = ["#2c5196cb", "#e5e7eb2b"];
+  const COLORS = ["#152e42", "#e5e7eb2b"];
 
   return (
-    <div className="task-progress-container">
+    <div
+      className={`${isLight ? "task-progress-container" : "task-progress-container light"}`}
+    >
       <h3>Task Progress</h3>
 
       <div className="charts">
@@ -65,7 +67,7 @@ export const TaskprogressChart = () => {
                 cursor={{ fill: "rgba(92, 92, 92, 0.1)" }}
               />
 
-              <Bar dataKey="count" fill="#271ec9c6" />
+              <Bar dataKey="count" fill=" #152e42" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -94,7 +96,7 @@ export const TaskprogressChart = () => {
                 dominantBaseline="middle"
                 fontSize="20"
                 fontWeight="600"
-                fill="#fff"
+                fill={isLight ? "#fff" : "#152e42"}
               >
                 {completionPercent}%
               </text>
