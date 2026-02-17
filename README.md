@@ -6,7 +6,7 @@ A real‑time Kanban board application built as part of an internship assignment
 
 ## 🚀 Live Demo
 
-🔗 **Application:** [https://submission-dred.onrender.com](https://submission-dred.onrender.com)
+🔗 **Application:** [https://project-kanban-dashboard.onrender.com/](https://project-kanban-dashboard.onrender.com/)
 
 > ⚠️ Note: The app is hosted on Render (free tier). The first load may take ~30 seconds if the service is waking up.
 
