@@ -14,7 +14,7 @@ A real‑time Kanban board application built as part of an internship assignment
 
 ## 💻 Source Code
 
-🔗 **GitHub Repository:** [https://github.com/Suku8008m/submission](https://github.com/Suku8008m/submission)
+🔗 **GitHub Repository:** [https://github.com/Suku8008m/kanban-dashboard](https://github.com/Suku8008m/kanban-dashboard)
 
 ---
 
